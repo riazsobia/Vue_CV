@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>CV maker</title>
+    <link rel="stylesheet" href="css/red.css" />
+    <script src="js/datepicker.js"></script>
+    <link href='//fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <script src="js/collapsible.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="css/red.css" />
+</head>
+
+<body class="grey lighten-3">
+    <nav>
+        <div class="nav-wrapper light-blue darken-4">
+            <a href="/" class="brand-logo" ><img src="img/CVmaker-logo.png" alt="logo" id="title"></a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="/info">Info</a></li>
+                <li><a href="/getstarted">Get started</a></li>
+                <li><a href="/aboutus">About us</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div style="margin-top:30px;" id="app">
+        <form action="/cvs" method="post">
+            <div class="container">
+                <div class="container">
+                    <div v-show="show === 1" class="row">
+                        <div class="card">
+                            <div class="card-content">
+                                <span class="card-title">
+                                    <h2>JFJ CV-maker</h2>
+                                </span>
+                                <h4>3 Steps to make your CV!</h4>
+                            </div>
+                            <div class="row">
+                                <div class="col s4">
+                                    <div class="center promo promo-example" style="margin-top:50px">
+                                        <i class="large material-icons red-text">account_circle</i>
+                                        <h5 class="promo-caption" style="margin-top:50px">1. Personal information</h5>
+                                    </div>
+                                </div>
+                                <div class="col s4">
+                                    <div class="center promo promo-example" style="margin-top:50px">
+                                        <i class="large material-icons red-text">flash_on</i>
+                                        <h5 class="promo-caption" style="margin-top:50px">2. Skills</h5>
+                                    </div>
+                                </div>
+                                <div class="col s4">
+                                    <div class="center promo promo-example" style="margin-top:50px">
+                                        <i class="large material-icons red-text">cloud_download</i>
+                                        <h5 class="promo-caption" style="margin-top:50px">3. Get your CV!</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-action">
+                                <button v-on:click.prevent="incrementStep" class="btn waves-effect waves-light red" type="submit" name="action">Get started
+                                    <i class="material-icons right">send</i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-show="show === 2" class="row">
+                        <div class="progress red lighten-3">
+                            <div class="determinate red" style="width: 20%"></div>
+                        </div>
+                        <div class="col s12 m12">
+                            <div class="card">
+                                <div class="card-content">
+                                    <span class="card-title">
+                                        <h4>Personal information</h4>
+                                    </span>
+                                    <div class="row">
+                                        <div class="input-field col s6">
+                                            <input v-model="firstname" name="firstname" id="first_name" type="text" class="validate">
+                                            <label for="first_name">First name:</label>
+                                        </div>
+                                        <div class="input-field col s6">
+                                            <input v-model="lastname" name="lastname" id="last_name" type="text" class="validate">
+                                            <label for="last_name">Last name:</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s6">
+                                            <input v-model="email" name="email" type="email" id="Email" class="validate">
+                                            <label for="Email">E-mail:</label>
+                                            <span class="helper-text" data-error="Invalid e-mail!" data-success="Valid e-mail."></span>
+                                        </div>
+                                        <div class="input-field col s6">
+                                            <input v-model="phonenumber" name="phonenumber" id="Phone" type="text" class="validate">
+                                            <label for="Phone">Phonenumber:</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s6">
+                                            <input v-model="streetname" name="street" id="Street" type="text" class="validate">
+                                            <label for="Street">Streetname:</label>
+                                        </div>
+                                        <div class="input-field col s6">
+                                            <input v-model="housenumber" name="nr" id="House" type="text" class="validate">
+                                            <label for="House">Housenumber:</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s6">
+                                            <input v-model="zip" name="zip" id="Postal" type="text" class="validate">
+                                            <label for="Postal">Zip:</label>
+                                        </div>
+                                        <div class="input-field col s6">
+                                            <input v-model="city" name="city" id="City" type="text" class="validate">
+                                            <label for="City">City:</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s6">
+                                            <input v-model="birthdate" name="birthdate" id="Birth" type="date">
+                                            <label for="Birth">Birthdate:</label>
+                                        </div>
+                                        <div class="input-field col s6">
+                                            <input v-model="birthplace" name="birthplace" id="Birthplace" type="text">
+                                            <label for="Birthplace">Birthplace:</label>
+                                        </div>
+                                    <div class="row">
+                                        <div class="input-field col s6">
+                                            <div class="input-field col s2">
+                                            <label>
+                                                <input v-model="gender" name="gender" type="radio" value="M"/>
+                                                <span>M</span>
+                                            </label>
+                                            </div>
+                                            <div class="input-field col s2">
+                                                <label>
+                                                    <input v-model="gender" name="gender" type="radio" value="F"/>
+                                                    <span>F</span>
+                                                </label>
+                                            </div>
+                                            <div class="input-field col s2">
+                                                <label>
+                                                    <input v-model="gender" name="gender" type="radio" value="X" />
+                                                    <span>X</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="input-field col s6">
+                                                <select multiple>
+                                                <option value="" disabled>Choose your option</option>
+                                                <option value="1">Am</option>
+                                                <option value="2">A</option>
+                                                <option value="3">A1</option>
+                                                <option value="4">B</option>
+                                                <option value="5">C1</option>
+                                                <option value="6">C1E</option>
+                                                <option value="7">C</option>
+                                                <option value="8">CE</option>
+                                                <option value="9">D1</option>
+                                                <option value="10">D1E</option>
+                                                <option value="11">D</option>
+                                                <option value="12">De</option>
+                                                <option value="13">D1</option>
+                                                <option value="14">G</option>
+                                                </select>
+                                                <label>Select driver licences:</label>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                                <div class="input-field col s6">
+                                    <button v-on:click.prevent="decrementStep" class="btn waves-effect waves-light col s12 red">Back
+                                        <i class="material-icons right">send</i>
+                                    </button>
+                                </div>
+                                <div class="input-field col s6">
+                                    <button v-on:click.prevent="incrementStep" class="btn waves-effect waves-light col s12 red">Next
+                                        <i class="material-icons right">send</i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-show="show === 3" class="row">
+                        <div class="progress red lighten-3">
+                            <div class="determinate red" style="width: 40%"></div>
+                        </div>
+                        <div class="col s12 m12">
+                            <div class="card">
+                                <div class="card-content">
+                                    <span class="card-title">
+                                        <h4>Education</h4>
+                                    </span>
+                                    <ul class="collapsible" >
+                                        <li class="active" v-for="education in educations">
+                                            <div class="collapsible-header"><i class="material-icons">school</i>Education</div>
+                                            <div class="collapsible-body">
+                                                <div class="row">
+                                                    <div class="input-field col s6">
+                                                        <input v-model="education.education" name="education[]" id="new-education" type="text" class="validate">
+                                                        <label for="new-education">Education:</label>
+                                                    </div>
+                                                    <div class="input-field col s6">
+                                                        <input v-model="education.placeEdu" name="placeEdu[]" id="Place" type="text" class="validate">
+                                                        <label for="Place">Place:</label>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="input-field col s12">
+                                                        <input v-model="education.institute" name="institute[]" id="Institution" type="text" class="validate">
+                                                        <label for="Institution">Educational institution:</label>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="input-field col s6">
+                                                        <input v-model="education.fromEdu" name="fromEdu[]" id="StartEdu" type="date" class="validate">
+                                                        <label for="StartEdu">From:</label>
+                                                    </div>
+                                                    <div class="input-field col s6">
+                                                        <input v-model="education.untilEdu" name="untilEdu[]" id="EndEdu" type="date" class="validate">
+                                                        <label for="EndEdu">Until:</label>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="input-field col s12">
+                                                        <textarea v-model="education.informationEdu" name="informationEdu[]" id="AdditionalInfoEdu" class="materialize-textarea"></textarea>
+                                                        <label for="AdditionalInfoEdu">Additional information:</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <div class="row">
+                                        <div class="input-field col s3"> 
+                                        <button v-on:click.prevent="addEducation" class="btn waves-effect waves-light col s12 light-blue darken-2">
+                                                <i class="material-icons center">add</i>
+                                            </button>      
+                                        </div>
+                                        <div class="input-field col s3"> 
+                                            <button v-on:click.prevent="deleteEducation" class="btn waves-effect waves-light col s12 light-blue darken-2">
+                                                <i class="material-icons center">delete</i>
+                                            </button> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <button v-on:click.prevent="decrementStep" class="btn waves-effect waves-light col s12 red">Back
+                                        <i class="material-icons right">send</i>
+                                    </button>
+                                </div>
+                                <div class="input-field col s6">
+                                    <button v-on:click.prevent="incrementStep" class="btn waves-effect waves-light col s12 red">Next
+                                        <i class="material-icons right">send</i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-show="show === 4" class="row">
+                        <div class="progress red lighten-3">
+                            <div class="determinate red" style="width: 60%"></div>
+                        </div>
+                        <div class="col s12 m12">
+                            <div class="card">
+                                <div class="card-content">
+                                    <span class="card-title">
+                                        <h4>Experience</h4>
+                                    </span>
+                                    <ul class="collapsible">
+                                        <li class="active" v-for="experience in experiences" >
+                                            <div class="collapsible-header"><i class="material-icons">work</i>Experience</div>
+                                            <div class="collapsible-body">
+                                                <div class="row">
+                                                    <div class="input-field col s6">
+                                                        <input v-model="experience.function" name="functionExp[]" id="Function" type="text" class="validate">
+                                                        <label for="Funcion">Function:</label>
+                                                    </div>
+                                                    <div class="input-field col s6">
+                                                        <input v-model="experience.placeExp" name="placeExp[]" id="Place" type="text" class="validate">
+                                                        <label for="Place">Place:</label>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="input-field col s12">
+                                                        <input v-model="experience.employer" name="employer[]" id="Employer" type="text" class="validate">
+                                                        <label for="Employer">Employer:</label>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="input-field col s6">
+                                                        <input v-model="experience.fromExp" name="fromExp[]" id="StartExp" type="date" class="validate">
+                                                        <label for="StartExp">From:</label>
+                                                    </div>
+                                                    <div class="input-field col s6">
+                                                        <input v-model="experience.untilExp" name="untilExp[]" id="EndExp" type="date" class="validate">
+                                                        <label for="EndExp">Until:</label>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="input-field col s12">
+                                                        <textarea v-model="experience.informationExp" name="informationExp[]" id="AdditionalInfoEdu" class="materialize-textarea"></textarea>
+                                                        <label for="Postal">Additional information:</label>
+                                                    </div>
+                                                </div>
+                                            </div>      
+                                        </li>
+                                    </ul>
+                                    <div class="row">
+                                        <div class="input-field col s3"> 
+                                            <button v-on:click.prevent="addExperience" class="btn waves-effect waves-light col s12 light-blue darken-2">
+                                                <i class="material-icons center">add</i>
+                                            </button>      
+                                        </div>
+                                        <div class="input-field col s3"> 
+                                            <button v-on:click.prevent="deleteExperience" class="btn waves-effect waves-light col s12 light-blue darken-2">
+                                                <i class="material-icons center">delete</i>
+                                            </button> 
+                                        </div>
+                                    </div>
+                                </div>      
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <button v-on:click.prevent="decrementStep" class="btn waves-effect waves-light col s12 red">Back
+                                        <i class="material-icons right">send</i>
+                                    </button>
+                                </div>
+                                <div class="input-field col s6">
+                                    <button v-on:click.prevent="incrementStep" class="btn waves-effect waves-light col s12 red">Next
+                                        <i class="material-icons right">send</i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-show="show === 5" class="row">
+                        <div class="progress red lighten-3">
+                            <div class="determinate red" style="width: 80%"></div>
+                        </div>
+                        <div class="col s12 m12">
+                            <div class="card">
+                                <div class="card-content">
+                                    <span class="card-title">
+                                        <h4>Computer skills</h4>
+                                    </span>
+                                    <div  v-for="computerskill in computerskills">
+                                        <div class="row">
+                                            <div class="input-field col s6">
+                                                <input v-model="computerskill.computerskill" name="computerskill[]" id="computerskill" type="text" class="validate">
+                                                <label for="computerskill">Skill:</label>
+                                            </div>
+                                            <div class="input-field col s2">
+                                                <label>
+                                                    <input v-model="computerskill.computerlevel" name="computerlevel[]" type="radio" value="Very Good"/>
+                                                    <span>Very Good</span>
+                                                </label>
+                                                </p>
+                                            </div>
+                                            <div class="input-field col s2">
+                                                <label>
+                                                    <input v-model="computerskill.computerlevel" name="computerlevel[]" type="radio" value="Good"/>
+                                                    <span>Good</span>
+                                                </label>
+                                            </div>
+                                            <div class="input-field col s2">
+                                                <label>
+                                                    <input v-model="computerskill.computerlevel" name="computerlevel[]" type="radio" value="Normal"/>
+                                                    <span>Normal</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s3"> 
+                                            <button v-on:click.prevent="addComputerskill" class="btn waves-effect waves-light col s12 light-blue darken-2">
+                                                <i class="material-icons center">add</i>
+                                            </button>      
+                                        </div>
+                                        <div class="input-field col s3"> 
+                                            <button v-on:click.prevent="deleteComputerskill" class="btn waves-effect waves-light col s12 light-blue darken-2">
+                                                <i class="material-icons center">delete</i>
+                                            </button> 
+                                        </div>
+                                    </div>   
+                                    <div class="row">
+                                        <div class="col s12">
+                                            <h5>Add your GitHub account</h5>
+                                            <p>If you add your GitHub we will be able to add your programming
+                                                languages and
+                                                number of repositories to your CV.</p>
+                                        </div>
+                                        <div class="input-field col s6">
+                                            <input v-model="githubUsernameInput" name="githubUsername" id="githubUsername" type="text" class="validate">
+                                            <label for="githubUsername">GitHub username:</label>
+                                        </div>
+                                        <div class="input-field col s6">
+                                            <input v-model="githubTokenInput" name="githubToken" id="githubtoken" type="password" class="validate">
+                                            <label for="githubtoken">GihtHub token:</label>
+                                        </div>
+                                        <div class="col s12">
+                                            <a href="https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/"
+                                                target="_blank">Learn more about generating tokens.</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <button v-on:click.prevent="decrementStep" class="btn waves-effect waves-light col s12 red">Back
+                                        <i class="material-icons right">send</i>
+                                    </button>
+                                </div>
+                                <div class="input-field col s6">
+                                    <button v-on:click.prevent="incrementStep" class="btn waves-effect waves-light col s12 red">Next
+                                        <i class="material-icons right">send</i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-show="show === 6" class="row">
+                        <div class="progress">
+                            <div class="determinate red" style="width: 100%"></div>
+                        </div>
+                        <div class="col s12 m12">
+                            <div class="card">
+                                <div class="card-content">
+                                    <span class="card-title">
+                                        <h4>Other skills</h4>
+                                    </span>
+                                    <div v-for="otherskill in otherskills">
+                                        <div class="row">
+                                            <div class="input-field col s6">
+                                                <input v-model="otherskill.otherskill" name="otherskill[]" id="otherskill" type="text" class="validate">
+                                                <label for="otherskill">Skill:</label>
+                                            </div>
+                                            <div class="input-field col s2">
+                                                <label>
+                                                    <input v-model="otherskill.otherlevel" name="otherlevel[]" type="radio" value="Very Good" />
+                                                    <span>Very Good</span>
+                                                </label>
+                                            </div>
+                                            <div class="input-field col s2">
+                                                <label>
+                                                    <input v-model="otherskill.otherlevel" name="otherlevel[]" type="radio" value="Good" />
+                                                    <span>Good</span>
+                                                </label>
+                                            </div>
+                                            <div class="input-field col s2">
+                                                <label>
+                                                    <input v-model="otherskill.otherlevel" name="otherlevel[]" type="radio" value="Normal" />
+                                                    <span>Normal</span>
+                                                </label>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s3"> 
+                                            <button v-on:click.prevent="addOtherskill" class="btn waves-effect waves-light col s12 light-blue darken-2">
+                                                <i class="material-icons center">add</i>
+                                            </button>      
+                                        </div>
+                                        <div class="input-field col s3"> 
+                                            <button v-on:click.prevent="deleteOtherskill" class="btn waves-effect waves-light col s12 light-blue darken-2">
+                                                <i class="material-icons center">delete</i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s12">
+                                            <select multiple>
+                                                    <option value="" disabled>Choose your option</option>
+                                                    <option value="1">Akan</option>
+                                                    <option value="2">Amharic</option>
+                                                    <option value="3">Arabic</option>
+                                                    <option value="4">Assamese</option>
+                                                    <option value="5">Awadhi</option>
+                                                    <option value="6">Azerbaijani</option>
+                                                    <option value="7">Balochi</option>
+                                                    <option value="8">Belarusian</option>
+                                                    <option value="9">Bengali </option>
+                                                    <option value="10">Bhojpuri</option>
+                                                    <option value="11">Burmese</option>
+                                                    <option value="12">Cebuano</option>
+                                                    <option value="13">Chewa</option>
+                                                    <option value="14">Chhattisgarhi</option>
+                                                    <option value="15">Chittagonian</option>
+                                                    <option value="16">Czech</option>
+                                                    <option value="17">Deccan</option>
+                                                    <option value="18">Dhundhari</option>
+                                                    <option value="19">Dutch</option>
+                                                    <option value="20">Eastern Min </option>
+                                                    <option value="21">English</option>
+                                                    <option value="22">French</option>
+                                                    <option value="23">Fula</option>
+                                                    <option value="24">Gan</option>
+                                                    <option value="25">German</option>
+                                                    <option value="26">Greek</option>
+                                                    <option value="27">Gujarati</option>
+                                                    <option value="28">Haitian Creole</option>
+                                                    <option value="29">Hakka</option>
+                                                    <option value="30">Haryanvi</option>
+                                                    <option value="31">Hausa</option>
+                                                    <option value="32">Hiligaynon</option>
+                                                    <option value="33">Hmong</option>
+                                                    <option value="34">Hungarian</option>
+                                                    <option value="35">Ilocano</option>
+                                                    <option value="36">Italian</option>
+                                                    <option value="37">Japanese</option>
+                                                    <option value="38">Javanese</option>
+                                                    <option value="39">Jin</option>
+                                                    <option value="40">Kannada</option>
+                                                    <option value="41">Kazakh</option>
+                                                    <option value="42">Khmer</option>
+                                                    <option value="43">Kinyarwanda</option>
+                                                    <option value="44">Kirundi</option>
+                                                    <option value="45">Konkani</option>
+                                                    <option value="46">Korean</option>
+                                                    <option value="47">Kurdish</option>
+                                                    <option value="48">Madurese</option>
+                                                    <option value="49">Magahi</option>
+                                                    <option value="50">Maithili</option>
+                                                    <option value="51">Malagasy</option>
+                                                    <option value="52">Malay</option>
+                                                    <option value="53">Malayalam</option>
+                                                    <option value="54">Mandarin</option>
+                                                    <option value="55">Marathi</option>
+                                                    <option value="56">Marwari</option>
+                                                    <option value="57">Mossi</option>
+                                                    <option value="58">Nepali</option>
+                                                    <option value="59">Northern Min</option>
+                                                    <option value="60">Odia</option>
+                                                    <option value="61">Oromo</option>
+                                                    <option value="62">Pashto</option>
+                                                    <option value="63">Persian</option>
+                                                    <option value="64">Polish</option>
+                                                    <option value="65">Portuguese</option>
+                                                    <option value="66">Quechua</option>
+                                                    <option value="67">Romanian</option>
+                                                    <option value="68">Russian</option>
+                                                    <option value="69">Somali</option>
+                                                    <option value="70">Spanish</option>
+                                                    <option value="71">Swedish</option>
+                                                    <option value="72">Tamil</option>
+                                                    <option value="73">Thai</option>
+                                                    <option value="74">Turkish</option>
+                                                    <option value="75">Ukrainian</option>
+                                                    <option value="76">Urdu</option>
+                                                    <option value="77">Vietnamese</option>
+                                                    <option value="78">West Flemish</option>
+                                            </select>
+                                            <label>Select languages:</label>
+                                        </div> 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <button v-on:click.prevent="decrementStep" class="btn waves-effect waves-light col s12 red">Back
+                                        <i class="material-icons right">send</i>
+                                    </button>
+                                </div>
+                                <div class="input-field col s6">
+                                    <button v-on:click.prevent="incrementStep" class="btn waves-effect waves-light col s12 red">Next
+                                        <i class="material-icons right">send</i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-show="show === 7" class="row">
+                        <div class="col s12 m12">
+                            <div class="card">
+                                <div class="card-content">
+                                    <span class="card-title">
+                                        <h4>Overview</h4>
+                                    </span>
+                                    <ul class="collapsible">
+                                        <li>
+                                            <div class="collapsible-header"><i class="material-icons">account_circle</i>Personal information</div>
+                                            <div class="collapsible-body">
+                                                <ul class="collection with-header">
+                                                    <li class="collection-header"><h4>{{firstname}} {{"   "}} {{lastname}}</h4></li>
+                                                    <li class="collection-item"><b>Email:</b>{{"   "}}{{email}}</li>
+                                                    <li class="collection-item"><b>Phonenumber:</b>{{"   "}}{{phonenumber}}</li>
+                                                    <li class="collection-item"><b>Streetname:</b>{{"   "}}{{streetname}}</li>
+                                                    <li class="collection-item"><b>Housenumber:</b>{{"   "}}{{housenumber}} </li>
+                                                    <li class="collection-item"><b>Zip:</b>{{"   "}}{{zip}}</li>
+                                                    <li class="collection-item"><b>City:</b>{{"   "}}{{city}}</li>
+                                                    <li class="collection-item"><b>Birthdate:</b>{{"   "}}{{birthdate}}</li>
+                                                    <li class="collection-item"><b>Birthplace:</b>{{"   "}}{{birthplace}}</li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="collapsible-header"><i class="material-icons">school</i>Education</div>
+                                            <div class="collapsible-body">
+                                                <div class="row">
+                                                    <ul class="collection with-header" v-for="education in educations">
+                                                        <li class="collection-header"><h4>{{education.education}}</h4></li>
+                                                        <li class="collection-item"><b>Place:</b>{{"   "}}{{education.placeEdu}}</li>
+                                                        <li class="collection-item"><b>Institute:</b>{{"   "}}{{education.institute}}</li>
+                                                        <li class="collection-item"><b>From:</b>{{"   "}}{{education.fromEdu}}</li>
+                                                        <li class="collection-item"><b>Until:</b>{{"   "}}{{education.untilEdu}}</li>
+                                                        <li class="collection-item"><b>Additional information:</b>{{"   "}}{{education.informationEdu}}</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="collapsible-header"><i class="material-icons">work</i>Experiences</div>
+                                            <div class="collapsible-body">
+                                                <div class="row">
+                                                    <ul class="collection with-header" v-for="experience in experiences">
+                                                        <li class="collection-header"><h4>{{experience.function}}</h4></li>
+                                                        <li class="collection-item"><b>Place:</b>{{" "}}{{experience.placeExp}}</li>
+                                                        <li class="collection-item"><b>Employer:</b>{{" "}}{{experience.employer}}</li>
+                                                        <li class="collection-item"><b>From:</b>{{" "}}{{experience.fromExp}}</li>
+                                                        <li class="collection-item"><b>Until:</b>{{" "}}{{experience.untilExp}}</li>
+                                                        <li class="collection-item"><b>Additional information:</b>{{experience.informationExp}}</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="collapsible-header"><i class="material-icons">laptop</i>Computer skills</div>
+                                            <div class="collapsible-body">
+                                                <div class="row">
+                                                    <ul class="collection with-header" v-for="computerskill in computerskills">
+                                                        <li class="collection-header"><h4>{{computerskill.computerskill}}</h4></li>
+                                                        <li class="collection-item"><b>Level:</b>{{"   "}}{{computerskill.computerlevel}}</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="row">
+                                                    <ul class="collection with-header" v-for="(value,key) in githubjson">
+                                                        <li class="collection-header"><h4>{{key}}</h4></li>
+                                                        <li class="collection-item"><b>Level:</b>{{"   "}}{{value}}%</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="collapsible-header"><i class="material-icons">grade</i>Other skills</div>
+                                            <div class="collapsible-body">
+                                                <div class="row">
+                                                    <ul class="collection with-header" v-for="otherskill in otherskills">
+                                                        <li class="collection-header"><h4>{{otherskill.otherskill}}</h4></li>
+                                                        <li class="collection-item"><b>Level:</b>{{"   "}}{{otherskill.otherlevel}}</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <button v-on:click.prevent="decrementStep" class="btn waves-effect waves-light col s12 red">Back
+                                        <i class="material-icons right">send</i>
+                                    </button>
+                                </div>
+                                <div class="input-field col s6">
+                                    <button name="action" type="submit" class="btn waves-effect waves-light col s12 red">Next
+                                        <i class="material-icons right">send</i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <footer class="page-footer light-blue darken-4">
+            <div class="container">
+                <div class="row">
+                    <div class="col l6 s12">
+                        <h5 class="white-text">Curriculum Vitae</h5>
+                        <p class="white-text">This site is made possible by the slim framework, Vue.JS, materialize.</p>
+                        <p class="white-text">You can view our code on our GitHub.</p>
+                        <a><img src="img/JFJ-logo.png"></a>
+                    </div>
+                    <div class="col l2 offset-l4">
+                        <h5 class="white-text">Links</h5>
+                        <ul>
+                            <li><a class="grey-text text-lighten-3" href="https://materializecss.com/" target="_blank"><img
+                                        src="img/materialize.png"></a></li>
+                            <li><a class="grey-text text-lighten-3" href="https://vuejs.org/" target="_blank"><img src="img/Vue.js_Logo.svg.png"
+                                        width="32px" height="32px"></a></li>
+                            <li><a class="grey-text text-lighten-3" href="https://www.slimframework.com/" target="_blank"><img
+                                        src="img/slimphp-logo.png" width="32px" height="32px"></a></li>
+                            <li><a class="grey-text text-lighten-3" href="https://github.com/vives-webapplications-2018/vue-project-cv-maker-jfj"
+                                    target="_blank"><img src="img/github-logo.png"></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <div class="container">
+                    © 2018 JFJ
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script src="js/index.js"></script>
+    <script src="js/checkbox.js"></script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vb CV</title>
+    <link rel="stylesheet" href="css/cv.css">
+</head>
+<body>
+    <div>
+        <aside class="left">
+            <h1 class="naam"><?=$firstname ?> <?=$lastname ?></h1>
+
+            <h1>Personalia</h1>
+
+            <h2>Naam</h2>
+            <p><?=$firstname ?> <?=$lastname ?></p>
+            
+            <h2>Adres</h2>
+            <p><?=$streetname ?> <?=$nr ?></p>
+            <p><?=$zip ?> <?=$city ?></p>
+            
+            <h2>Telefoonnummer</h2>
+            <p><?=$phonenumber ?></p>
+            
+            <h2>E-mailadres</h2>
+            <p><?=$email ?></p>
+            
+            <h2>Geboortedatum</h2>
+            <p><?=$birthdate ?></p>
+            
+            <h2>Geboorteplaats</h2>
+            <p><?=$birthplace ?></p>
+            
+            <h2>Rijbewijs</h2>
+            <p>B</p>
+            
+            <h2>github</h2>
+            
+            <h1>Intresses</h1>
+
+            <h2>Talen</h2>
+            <p>html </p>
+            <p>css </p>
+
+        </aside>
+        <section class="uitleg">korte uitleg van jezelf</section>
+        <section>
+            <h1>Opleidingen</h1>
+            <hr>
+            <p class="datum"><?=$fromEdu ?> tot <?=$untilEdu ?></p>
+            <p class="school"><?=$institute ?> &nbsp <?=$placeEdu ?></p>
+            <p class="richting"><?=$education[2] ?> <?
+                for($i=0;$i<10;$i++){
+                    echo $education[$i];
+                } 
+            ?></p>
+            <p class="uitleg">test: <?=$informationEdus ?></p>
+
+            <p class="datum"><?=$fromEdu ?> tot <?=$untilEdu ?></p>
+            <p class="school"><?=$institute ?> &nbsp <?=$placeEdu ?></p>
+            <p class="richting"><?=$education[2] ?></p>
+            <p class="uitleg"></p>
+
+        </section>
+        <section>
+            <h1>Werkervaring</h1>
+            <hr>
+            <p class="datum"><?=$fromExp ?> tot <?=$untilExp ?></p>
+            <p class="werkplaats"><?=$placeExp ?></p>
+            <p class="job"><?=$functionExp ?></p>
+            <p><?=$informationExp ?></p>
+
+            <p class="datum"><?=$fromExp ?> tot <?=$untilExp ?></p>
+            <p class="werkplaats"><?=$placeExp ?></p>
+            <p class="job"><?=$functionExp ?></p>
+            <p><?=$informationExp ?> </p>
+        </section>
+
+        <section>
+            <h1>Certificaten</h1>
+            <hr>
+            <p class="datum">2018</p>
+            <p class="cursus">Cisco</p>
+            <p class="certificaat">cisco 1</p>
+        </section>
+        
+        <section>
+            <h1>Vaardigheden</h1>
+            <hr>
+            <ul>
+                <li>word</li>
+                <li>office  </li>
+            </ul>
+        </section>
+    </div>
+</body>
+</html>
